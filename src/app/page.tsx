@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import Header from '@/components/Header'
 
 import MediaCarousel from '@/components/MediaCarousel'
@@ -10,6 +10,7 @@ import EmergencyInfo from '@/components/EmergencyInfo'
 import Footer from '@/components/Footer'
 import BottomNavigation from '@/components/BottomNavigation'
 import DonationPopup from '@/components/DonationPopup'
+import { DonationModal } from '@/components/DonationModal' // Added import
 import { useDonationPopup } from '@/hooks/useDonationPopup'
 import { useCampaigns } from '@/hooks/useCampaigns'
 
@@ -22,6 +23,21 @@ function Page() {
 
   const { getRandomCampaign } = useCampaigns()
   const featuredCampaign = getRandomCampaign()
+
+  // State for DonationModal
+  const [donationModalOpen, setDonationModalOpen] = useState(false)
+  const [donationAmount, setDonationAmount] = useState<number | undefined>(undefined)
+
+  const handleDonateFromPopup = (amount: number) => {
+    setDonationAmount(amount)
+    setDonationModalOpen(true)
+    close() // Close the popup when modal opens
+  }
+
+  const handleCloseDonationModal = () => {
+    setDonationModalOpen(false)
+    setDonationAmount(undefined) // Reset amount when modal closes
+  }
 
   return (
     <div className="min-h-screen">
@@ -65,9 +81,17 @@ function Page() {
         <DonationPopup
           isOpen={isOpen}
           onClose={close}
+          onDonate={handleDonateFromPopup}
           campaign={featuredCampaign}
         />
       )}
+
+      {/* Donation Modal */}
+      <DonationModal
+        open={donationModalOpen}
+        onClose={handleCloseDonationModal}
+        initialAmount={donationAmount}
+      />
     </div>
   )
 }

@@ -23,6 +23,7 @@ import { Card, CardContent } from "@/components/ui/card"
 type Props = {
   open: boolean
   onClose: () => void
+  initialAmount?: number
 }
 
 const PRESETS = [500, 1000, 2500, 5000, 10000]
@@ -33,7 +34,7 @@ const PAYMENT_METHODS = [
   { value: 'bank', label: 'Bank Transfer', icon: Banknote, description: 'Direct Deposit' }
 ]
 
-export function DonationModal({ open, onClose }: Props) {
+export function DonationModal({ open, onClose, initialAmount }: Props) {
   const [selectedPreset, setSelectedPreset] = React.useState<number>(3000)
   const [amount, setAmount] = React.useState<string>("3000")
   const [fullName, setFullName] = React.useState<string>("")
@@ -49,6 +50,13 @@ export function DonationModal({ open, onClose }: Props) {
     // keep input in sync when preset changes
     setAmount(selectedPreset.toString())
   }, [selectedPreset])
+
+  React.useEffect(() => {
+    if (initialAmount && open) {
+      setSelectedPreset(initialAmount)
+      setAmount(initialAmount.toString())
+    }
+  }, [initialAmount, open])
 
   const minAmount = 300
   const amountNum = parseInt(amount) || 0

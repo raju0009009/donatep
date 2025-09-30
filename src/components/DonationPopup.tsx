@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 interface DonationPopupProps {
   isOpen: boolean
   onClose: () => void
+  onDonate: (amount: number) => void
   campaign?: {
     title: string
     description: string
@@ -17,7 +18,7 @@ interface DonationPopupProps {
   }
 }
 
-export default function DonationPopup({ isOpen, onClose, campaign }: DonationPopupProps) {
+export default function DonationPopup({ isOpen, onClose, onDonate, campaign }: DonationPopupProps) {
   const [showDifferentAmount, setShowDifferentAmount] = React.useState(false)
 
   // Helper function to render logo or icon
@@ -115,7 +116,7 @@ export default function DonationPopup({ isOpen, onClose, campaign }: DonationPop
                     className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-4 text-lg shadow-lg border-2 border-primary"
                     onClick={() => {
                       // Handle donation with preset amount
-                      window.location.href = `/donate?amount=${currentCampaign.presetAmount}`
+                      onDonate(currentCampaign.presetAmount)
                     }}
                   >
                     Donate {formatINR(currentCampaign.presetAmount)}
@@ -144,7 +145,7 @@ export default function DonationPopup({ isOpen, onClose, campaign }: DonationPop
                         variant="outline"
                         className="hover:bg-primary hover:text-primary-foreground border-muted-foreground text-muted-foreground transition-colors"
                         onClick={() => {
-                          window.location.href = `/donate?amount=${amount}`
+                          onDonate(amount)
                         }}
                       >
                         {formatINR(amount)}

@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Heart } from 'lucide-react'
 import { DonationModal } from '@/components/DonationModal'
@@ -40,12 +41,18 @@ export default function Header() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <div className="flex items-center gap-2 sm:gap-3">
-              <div className={`p-2 sm:p-2.5 rounded-xl transition-all duration-300 ${
+              <div className={`p-1 sm:p-1.5 rounded-xl transition-all duration-300 ${
                 isScrolled
                   ? 'bg-primary shadow-lg'
                   : 'bg-primary/90 backdrop-blur-sm shadow-md'
               }`}>
-                <Heart className={`w-5 h-5 sm:w-6 sm:h-6 ${isScrolled ? 'text-primary-foreground' : 'text-primary-foreground'} transition-transform hover:scale-110`} />
+                <Image 
+                  src="/logo.webp" 
+                  alt="Punjab Flood Relief Logo" 
+                  width={30} 
+                  height={30} 
+                  className={`w-6 h-6 sm:w-7 sm:h-7 ${isScrolled ? 'text-primary-foreground' : 'text-primary-foreground'} transition-transform hover:scale-110`}
+                />
               </div>
               <div>
                 <h1 className={`font-bold text-lg sm:text-xl tracking-tight ${
